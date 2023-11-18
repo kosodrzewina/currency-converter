@@ -28,7 +28,7 @@ public class ParseResult<T> {
     }
 
     public static <T> ParseResult<T> createSuccess(T data) {
-        return new ParseResult<>(data);
+        return new ParseResult<T>(data);
     }
 
     public static <T> ParseResult<T> createFailure(String message) {
