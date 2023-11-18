@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,7 +32,8 @@ public class Main {
 
         var convertedAmount = Currency.convert(currencyFrom, currencyTo, amount);
 
-        System.out.println(amount + " " + currencyFrom + " = " + convertedAmount + " " + currencyTo);
+        var decimalFormat = new DecimalFormat("0.00");
+        System.out.println(decimalFormat.format(amount) + " " + currencyFrom + " = " + decimalFormat.format(convertedAmount) + " " + currencyTo);
         System.exit(0);
     }
 
@@ -46,17 +48,17 @@ public class Main {
             return ParseResult.createFailure("'" + currencyToString + "' is an invalid or unavailable currency!");
         }
 
-        Double amount = null;
+        BigDecimal amount = null;
         try {
-            amount = Double.parseDouble(amountString);
+            amount = new BigDecimal(amountString);
         } catch (NumberFormatException e) {
             return ParseResult.createFailure("'" + amountString + "' is an invalid amount!");
         }
 
-        if (new BigDecimal(amount).scale() > 2) {
+        if (amount.scale() > 2) {
             return ParseResult.createFailure("The amount can have maximum of two decimal digits!");
         }
 
-        return ParseResult.createSuccess(new Arguments(currencyFrom, currencyTo, amount));
+        return ParseResult.createSuccess(new Arguments(currencyFrom, currencyTo, amount.doubleValue()));
     }
 }

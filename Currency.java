@@ -1,3 +1,6 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public enum Currency {
     PLN(4.02),
     USD(1),
@@ -10,7 +13,8 @@ public enum Currency {
     }
 
     public static double convert(Currency currencyFrom, Currency currencyTo, double amount) {
-        return amount / currencyFrom.exchangeRate * currencyTo.exchangeRate;
+        var convertedAmount = amount / currencyFrom.exchangeRate * currencyTo.exchangeRate;
+        return new BigDecimal(convertedAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     public static Currency getFromString(String currency) {
