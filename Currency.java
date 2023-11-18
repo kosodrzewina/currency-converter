@@ -15,7 +15,7 @@ public enum Currency {
 
     public static Currency getFromString(String currency) {
         try {
-            return Currency.valueOf(currency);
+            return Currency.valueOf(currency.toUpperCase());
         } catch (IllegalArgumentException e) {
             return null;
         }
