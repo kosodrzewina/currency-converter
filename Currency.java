@@ -1,29 +1,22 @@
 public enum Currency {
-    PLN,
-    USD,
-    EUR;
+    PLN(4.02),
+    USD(1),
+    EUR(0.92);
 
-    public static Currency getFromString(String currencyString) {
-        var currency = getFromStringAsText(currencyString);
-        if (currency == null) {
-            currency = getFromStringAsNumber(currencyString);
-        }
+    private final double exchangeRate;
 
-        return currency;
+    private Currency(double exchangeRate) {
+        this.exchangeRate = exchangeRate;
     }
 
-    private static Currency getFromStringAsText(String currency) {
+    public static double convert(Currency currencyFrom, Currency currencyTo, double amount) {
+        return amount / currencyFrom.exchangeRate * currencyTo.exchangeRate;
+    }
+
+    public static Currency getFromString(String currency) {
         try {
             return Currency.valueOf(currency);
         } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
-
-    private static Currency getFromStringAsNumber(String currency) {
-        try {
-            return Currency.values()[Integer.parseInt(currency)];
-        } catch (NumberFormatException e) {
             return null;
         }
     }
